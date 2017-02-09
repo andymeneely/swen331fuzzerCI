@@ -46,4 +46,4 @@ RUN tar -xzvf ruby-2.3.3.tar.gz \
 RUN ruby -v
 
 # Install Fuzzer deps
-RUN gem install mechanize
+RUN gem install --no-user-install mechanize
