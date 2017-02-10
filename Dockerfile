@@ -48,9 +48,4 @@ RUN ruby -v
 # Install Fuzzer deps
 RUN gem install mechanize
 
-# Install MySQL tables
-RUN mysql_install_db --user=mysql -ldata=/var/lib/mysql
-
-# Fire up services
-RUN service apache2 start
-RUN /bin/bash -l -c "/start-mysqld.sh"
+CMD ["/run.sh"]
