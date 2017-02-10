@@ -47,3 +47,7 @@ RUN ruby -v
 
 # Install Fuzzer deps
 RUN gem install mechanize
+
+# Fire up services
+RUN service apache2 start
+RUN /bin/bash -l -c "/start-mysqld.sh"
