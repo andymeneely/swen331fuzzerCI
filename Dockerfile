@@ -23,6 +23,7 @@ RUN apt-get -y install \
   pkg-config \
   python \
   python3 \
+  python3-pip \
   sqlite3 \
   vim \
   wget \
@@ -47,6 +48,8 @@ RUN ruby -v
 
 # Install Fuzzer deps
 RUN gem install mechanize
+RUN pip3 install BeautifulSoup4
+RUN pip3 install requests
 
 ADD dvwaDBsetup.sql /dvwaDBsetup.sql
 RUN chmod 777 /dvwaDBsetup.sql
