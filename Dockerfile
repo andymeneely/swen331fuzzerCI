@@ -1,6 +1,6 @@
 
 FROM ubuntu:trusty
-
+RUN echo "hello world"
 RUN apt-get -y update --fix-missing
 RUN apt-get -y install \
   automake \
@@ -85,5 +85,10 @@ RUN gem install mechanize
 
 ADD dvwaDBsetup.sql /dvwaDBsetup.sql
 RUN chmod 777 /dvwaDBsetup.sql
+ADD mysql-setup.sh /mysql-setup.sh
+RUN chmod 777 /mysql-setup.sh
+RUN rm /app/config/config.inc.php
+ADD config.inc.php /app/config/config.inc.php
+
 EXPOSE 80 3306
 CMD ["/run.sh"]
