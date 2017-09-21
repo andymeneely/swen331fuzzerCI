@@ -23,6 +23,8 @@ RUN apt-get -y install \
   pkg-config \
   python \
   python3 \
+  python-pip \
+  python3-pip \
   sqlite3 \
   vim \
   wget \
