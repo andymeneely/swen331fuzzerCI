@@ -31,9 +31,10 @@ RUN apt-get -y install \
   zlib1g-dev
 
 # Install DVWA
-RUN rm -fr /app && git clone https://github.com/RandomStorm/DVWA /app
+RUN rm -fr /app && git clone https://github.com/ethicalhack3r/DVWA /app
 RUN sed -i -e "s/AllowOverride FileInfo/AllowOverride FileInfo Options/" /etc/apache2/sites-enabled/000-default.conf
 RUN sed -i -e "s/allow_url_include = Off/allow_url_include = On/" /etc/php5/apache2/php.ini
+RUN cp /app/config/config.inc.php.dist /app/config/config.inc.php 
 RUN sed -i -e 's/root/admin/' /app/config/config.inc.php
 RUN chmod 777 /app/hackable/uploads
 RUN chmod 777 /app/external/phpids/0.6/lib/IDS/tmp/phpids_log.txt
