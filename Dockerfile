@@ -119,16 +119,15 @@ ENV PATH $GEM_HOME/bin:$BUNDLE_PATH/gems/bin:$PATH
 # adjust permissions of a few directories for running "gem install" as an arbitrary user
 RUN mkdir -p "$GEM_HOME" && chmod 777 "$GEM_HOME"
 
-# Add in our sample files
-COPY vectors.txt /
-COPY words.txt /
-COPY badchars.txt /
-COPY fuzzer-tests /app
-
 # Install Fuzzer deps
 RUN gem install mechanize
 RUN pip3 install BeautifulSoup4 requests
 
-EXPOSE 80 3306
+# Add in our sample files
+COPY vectors.txt /
+COPY words.txt /
+COPY badchars.txt /
+RUN mkdir /var/www/html/fuzzer-tests
+COPY fuzzer-tests /var/www/html/fuzzer-tests
 
-CMD ["/run.sh"]
+EXPOSE 80 3306
