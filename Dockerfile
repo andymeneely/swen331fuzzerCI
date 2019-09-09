@@ -123,6 +123,11 @@ RUN mkdir -p "$GEM_HOME" && chmod 777 "$GEM_HOME"
 RUN gem install mechanize
 RUN pip3 install BeautifulSoup4 requests
 
+# Fix from https://github.com/locomotivecms/wagon/issues/340#issuecomment-343646069
+RUN cp /etc/hosts /etc/hosts.new && \
+    sed -i 's/::1\tlocalhost ip6-localhost ip6-loopback/::1 ip6-localhost ip6-loopback/' /etc/hosts.new && \
+    cp -f /etc/hosts.new /etc/hosts
+
 # Add in our sample files
 COPY vectors.txt /
 COPY words.txt /
