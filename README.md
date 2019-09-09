@@ -28,4 +28,4 @@ fuzzrunner:
 		- ruby fuzzer.rb discover http://localhost/fuzzer-tests
   stage: test
 
-# 
+# fuzzer-tests
