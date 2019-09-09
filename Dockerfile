@@ -30,6 +30,11 @@ RUN apt-get -y install \
   wget \
   zlib1g-dev
 
+#Install Node
+#https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions
+RUN curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+RUN apt-get install -y nodejs
+
 # Install DVWA
 RUN rm -fr /app && git clone https://github.com/ethicalhack3r/DVWA /app
 RUN sed -i -e "s/AllowOverride FileInfo/AllowOverride FileInfo Options/" /etc/apache2/sites-enabled/000-default.conf
@@ -56,5 +61,9 @@ COPY badchars.txt /
 
 # Install Fuzzer deps
 RUN gem install mechanize
+
+#test node
+RUN node --version
+RUN npm --version
 
 CMD ["/run.sh"]
