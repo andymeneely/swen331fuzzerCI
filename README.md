@@ -5,17 +5,17 @@ The CI configuration for the SWEN 331 fuzzer assignment.
 
 This image was initially intended to run inside of GitLab's CI. Here's our config:
 
-
-image: andymeneely/swen331fuzzer
+```
+image:
+  name: andymeneely/swen331fuzzer # don't change this
+  entrypoint: [""]  # don't change this
 before_script:
-    # do not change any of the statements in this section
-    - service apache2 start
-    - mysql_install_db --user=mysql -ldata=/var/lib/mysql
-    - service mysql start
-    - /usr/bin/mysqladmin -u root password fuzzer
-    - service mysql restart
-    - /mysql-setup.sh
-    # do not change any of the statements in this section
+  # don't change these either
+  - chown -R mysql:mysql /var/lib/mysql /var/run/mysqld
+  - echo '[+] Starting mysql...'
+  - service mysql start
+  - echo '[+] Starting apache'
+  - service apache2 start
 fuzzrunner:
   script:
     # here is where you can write your commands to run your fuzzer or any custom setup commands
@@ -23,10 +23,12 @@ fuzzrunner:
     # need some example files for vectors and words? These are on the image
     - cat /words.txt
     - cat /vectors.txt
+    - cat /badchars.txt
     # An example fuzzer command. Note the url is DIFFERENT than XAMPP example (no /dvwa).
-    - ruby fuzzer.rb discover http://localhost/ --custom-auth=dvwa
-    - ruby fuzzer.rb discover http://localhost/fuzzer-tests
+    - ruby fuzz.rb discover http://localhost/ --custom-auth=dvwa
+    - ruby fuzz.rb discover http://127.0.0.1/fuzzer-tests
   stage: test
+```
 
 # Running locally
 
