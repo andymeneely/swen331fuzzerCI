@@ -1,6 +1,16 @@
 # swen331fuzzerCI
 The CI configuration for the SWEN 331 fuzzer assignment.
 
+# Running locally
+
+This will pull the image and run it.
+
+```
+$ docker run --rm -it -p 80:80 andymeneely/swen331fuzzer
+```
+
+After that, go to http://localhost in your browser.
+
 # Running inside GitLab CI
 
 This image was initially intended to run inside of GitLab's CI. Here's our config:
