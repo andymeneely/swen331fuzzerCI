@@ -254,7 +254,7 @@ and <code>http://localhost/foo/baz</code> (and you do NOT need to construct othe
 				<li><b>Page discovery</b>.
 Starting from the initial URL given, and from any page guessed, the fuzzer should discover pages on the site by finding
 links and visiting them (i.e. "crawling"). Keep a list of URLs that it confirmed exist. Do not follow any links off-site
-in your crawl. Do not go in an infinite loop.
+in your crawl. Do not go in an infinite loop. Beware of logout links: you may amend your custom auth feature to be aware of what DVWA's logout page is and skip crawling it.
 				</li>
 			</ul>
 		</li>
