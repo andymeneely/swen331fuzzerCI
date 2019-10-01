@@ -94,6 +94,8 @@ COMMANDS:
   test      Discover all inputs, then attempt a list of exploit vectors on those inputs. Report anomalies that could be vulnerabilities.
 
 OPTIONS:
+	Options can be given in any order.
+
   --custom-auth=string     Signal that the fuzzer should use hard-coded authentication for a specific application (e.g. dvwa).
 
   Discover options:
@@ -109,14 +111,14 @@ OPTIONS:
     --slow=500             Number of milliseconds considered when a response is considered "slow". Optional. Default is 500 milliseconds
 
 Examples:
-  # Discover inputs
+  # Discover inputs, default extensions, no login
   fuzz discover http://localhost:8080 --common-words=mywords.txt
 
-  # Discover inputs to DVWA using our hard-coded authentication
-  fuzz discover http://localhost:8080 --common-words=mywords.txt
+  # Discover inputs to DVWA using our hard-coded authentication, port 8080
+  fuzz discover http://localhost:8080 --custom-auth=dvwa --extensions=extensions.txt --common-words=mywords.txt
 
-  # Discover and Test DVWA without randomness
-  fuzz test http://localhost:8080 --custom-auth=dvwa --common-words=words.txt --vectors=vectors.txt --sensitive=creditcards.txt --random=false
+  # Discover and Test DVWA, port 8000, default extensions: sanitized characters, extensions and slow threshold
+  fuzz test http://localhost:8000 --custom-auth=dvwa --common-words=words.txt --vectors=vectors.txt --sensitive=creditcards.txt
 </pre>
 
 <h2>Example Output</h2>
@@ -241,12 +243,13 @@ had a password).</p>
 		<li><b>Page discovery</b>. The fuzzer must crawl and guess pages.
 			<ul>
 				<li><b>Page Guessing</b>.
-The fuzzer should use the common word list, given in the command line argument, to discover potentially unlinked pages. Be sure to attempt relevant url
-extensions, such as ".php" or ".jsp". Your guessing may limit itself to the root of the given URL, you do NOT need to
-guess on every existing page (although a real fuzzer should!). For example, if the given url was
-<code>http://localhost/foo</code>, and your word list has <code>bar</code> and <code>baz</code> then your fuzzer should
-guess <code>http://localhost/foo/bar</code> and <code>http://localhost/foo/baz</code> (and you do NOT need to construct
-other permutations like <code>http://localhost/foo/bar/baz</code> or <code>http://localhost/bar</code>).
+The fuzzer should use the common word list to discover potentially unlinked pages. Attempt every combination of word and
+extension, (e.g. admin.php, admin.jsp). The list of words and extensions are in text files referred to in your command
+line arguments. Your guessing may limit itself to the root of the given URL, you do NOT need to guess on every existing
+page (although a real fuzzer should!). For example, if the given url was <code>http://localhost/foo</code>, and your
+word list has <code>bar</code> and <code>baz</code> then your fuzzer should guess <code>http://localhost/foo/bar</code>
+and <code>http://localhost/foo/baz</code> (and you do NOT need to construct other permutations like
+<code>http://localhost/foo/bar/baz</code> or <code>http://localhost/bar</code>).
 				</li>
 				<li><b>Page discovery</b>.
 Starting from the initial URL given, and from any page guessed, the fuzzer should discover pages on the site by finding
@@ -283,8 +286,7 @@ the ordinary.</p>
 
 	<p>To conduct your test, you must use an <b>external list of fuzz vectors</b>. These are strings of common exploits to vulnerabilities. These lists can be found all over the internet. <a href="https://www.owasp.org/index.php/OWASP_Testing_Guide_Appendix_C:_Fuzz_Vectors">This list at OWASP</a> is a fine place to start. <b>TIP</b>: when developing, keep this list short and targeted. You're fuzzing applications you <i>know</i> are vulnerable, so unnecessary vectors can slow your Edit-Compile-Test cycle.</p>
 
-	<p>Upon
-sending in the vector, you'll need examine the response to see if the
+	<p>Upon sending in the vector, you'll need examine the response to see if the
 page may have a vulnerability. Here are some reasons, and you may think
 of more.</p>
 
