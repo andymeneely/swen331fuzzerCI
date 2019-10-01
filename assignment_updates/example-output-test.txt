@@ -1,0 +1,428 @@
+[32;1m$ echo "------------DISCOVER------------"[0;m
+------------DISCOVER------------
+[32;1m$ ruby fuzzer.rb discover http://localhost --custom-auth=dvwa --words=/words.txt[0;m
+CHANGING SECURITY TO LOW
+Pages Successfully Guessed:
+********************************************
+http://localhost/settings.php
+http://localhost/admin/index.php
+Mechanize::Page
+Links Discovered:
+********************************************
+http://localhost/.
+http://localhost/instructions.php
+http://localhost/setup.php
+http://localhost/vulnerabilities/brute/
+http://localhost/vulnerabilities/exec/
+http://localhost/vulnerabilities/csrf/
+http://localhost/vulnerabilities/fi/.?page=include.php
+http://localhost/vulnerabilities/upload/
+http://localhost/vulnerabilities/captcha/
+http://localhost/vulnerabilities/sqli/
+http://localhost/vulnerabilities/sqli_blind/
+http://localhost/vulnerabilities/xss_r/
+http://localhost/vulnerabilities/xss_s/
+http://localhost/security.php
+http://localhost/phpinfo.php
+http://localhost/about.php
+http://localhost/login.php
+Parsed URLs (from guessed pages and discovered links):
+********************************************
+["http://localhost/."]
+["http://localhost/instructions.php"]
+["http://localhost/setup.php"]
+["http://localhost/vulnerabilities/brute/"]
+["http://localhost/vulnerabilities/exec/"]
+["http://localhost/vulnerabilities/csrf/"]
+["http://localhost/vulnerabilities/fi/.", "page=include.php"]
+["http://localhost/vulnerabilities/upload/"]
+["http://localhost/vulnerabilities/captcha/"]
+["http://localhost/vulnerabilities/sqli/"]
+["http://localhost/vulnerabilities/sqli_blind/"]
+["http://localhost/vulnerabilities/xss_r/"]
+["http://localhost/vulnerabilities/xss_s/"]
+["http://localhost/security.php"]
+["http://localhost/phpinfo.php"]
+["http://localhost/about.php"]
+["http://localhost/login.php"]
+["http://localhost/settings.php"]
+["http://localhost/admin/index.php"]
+************************************************
+PAGE: Setup :: Damn Vulnerable Web Application (DVWA) v1.9
+************************************************
+FORM INPUTS:
+*********************************************
+*   Name   *             Value              *
+*********************************************
+*********************************************
+*user_token*3e5f33222702abcebf787fd30e0c2bc8*
+*********************************************
+************************************************
+PAGE: Vulnerability: Brute Force :: Damn Vulnerable Web Application (DVWA) v1.9
+************************************************
+FORM INPUTS:
+****************
+*  Name  *Value*
+****************
+****************
+*username*     *
+*password*     *
+****************
+************************************************
+PAGE: Vulnerability: Command Injection :: Damn Vulnerable Web Application (DVWA) v1.9
+************************************************
+FORM INPUTS:
+**********
+*Name*Value*
+**********
+**********
+*ip*     *
+**********
+************************************************
+PAGE: Vulnerability: Cross Site Request Forgery (CSRF) :: Damn Vulnerable Web Application (DVWA) v1.9
+************************************************
+FORM INPUTS:
+*********************
+*    Name     *Value*
+*********************
+*********************
+*password_new *     *
+*password_conf*     *
+*********************
+************************************************
+PAGE: Vulnerability: File Upload :: Damn Vulnerable Web Application (DVWA) v1.9
+************************************************
+FORM INPUTS:
+************************************************
+PAGE: Vulnerability: Insecure CAPTCHA :: Damn Vulnerable Web Application (DVWA) v1.9
+************************************************
+FORM INPUTS:
+********************************************
+*          Name           *     Value      *
+********************************************
+********************************************
+*          step           *       1        *
+*      password_new       *                *
+*      password_conf      *                *
+*recaptcha_response_field *manual_challenge*
+*recaptcha_challenge_field*                *
+********************************************
+************************************************
+PAGE: Vulnerability: SQL Injection :: Damn Vulnerable Web Application (DVWA) v1.9
+************************************************
+FORM INPUTS:
+**********
+*Name*Value*
+**********
+**********
+*id*     *
+**********
+************************************************
+PAGE: Vulnerability: SQL Injection (Blind) :: Damn Vulnerable Web Application (DVWA) v1.9
+************************************************
+FORM INPUTS:
+**********
+*Name*Value*
+**********
+**********
+*id*     *
+**********
+************************************************
+PAGE: Vulnerability: Reflected Cross Site Scripting (XSS) :: Damn Vulnerable Web Application (DVWA) v1.9
+************************************************
+FORM INPUTS:
+************
+*Name*Value*
+************
+************
+*name*     *
+************
+************************************************
+PAGE: Vulnerability: Stored Cross Site Scripting (XSS) :: Damn Vulnerable Web Application (DVWA) v1.9
+************************************************
+FORM INPUTS:
+******************
+*   Name   *Value*
+******************
+******************
+* txtName  *     *
+*mtxMessage*     *
+******************
+************************************************
+PAGE: DVWA Security :: Damn Vulnerable Web Application (DVWA) v1.9
+************************************************
+FORM INPUTS:
+*********************************************
+*   Name   *             Value              *
+*********************************************
+*********************************************
+*user_token*187c302648909a95e407e6891fa6bd66*
+* security *              low               *
+*********************************************
+************************************************
+PAGE: Login :: Damn Vulnerable Web Application (DVWA) v1.9
+************************************************
+FORM INPUTS:
+*********************************************
+*   Name   *             Value              *
+*********************************************
+*********************************************
+* username *                                *
+* password *                                *
+*user_token*37baf3c5620408fb063efdda97e1080a*
+*********************************************
+************************************************
+PAGE: Test Credit Card Title Page
+************************************************
+FORM INPUTS:
+************************
+*      Name      *Value*
+************************
+************************
+*creditCardNumber*     *
+*      ssn       *     *
+************************
+************************************************
+PAGE: Test Admin Page
+************************************************
+FORM INPUTS:
+*******************
+*   Name    *Value*
+*******************
+*******************
+*ritUsername*     *
+* password  *     *
+*******************
+Cookies:
+*********************************************************
+PHPSESSID=9nfi6qppjtkp9j3h56e78c0ju4
+security=low
+TestCookie=CookieMonster
+AdminCookie=BettyWhiteWasHere
+*********************************************************
+[32;1m$ echo "------------TEST------------"[0;m
+------------TEST------------
+[32;1m$ ruby fuzzer.rb test http://localhost --custom-auth=dvwa --sensitive=sensitiveData.txt --words=/words.txt --vectors=/vectors.txt --slow=10[0;m
+CHANGING SECURITY TO LOW
+Pages Successfully Guessed:
+********************************************
+http://localhost/settings.php
+http://localhost/admin/index.php
+Mechanize::Page
+Links Discovered:
+********************************************
+http://localhost/.
+http://localhost/instructions.php
+http://localhost/setup.php
+http://localhost/vulnerabilities/brute/
+http://localhost/vulnerabilities/exec/
+http://localhost/vulnerabilities/csrf/
+http://localhost/vulnerabilities/fi/.?page=include.php
+http://localhost/vulnerabilities/upload/
+http://localhost/vulnerabilities/captcha/
+http://localhost/vulnerabilities/sqli/
+http://localhost/vulnerabilities/sqli_blind/
+http://localhost/vulnerabilities/xss_r/
+http://localhost/vulnerabilities/xss_s/
+http://localhost/security.php
+http://localhost/phpinfo.php
+http://localhost/about.php
+http://localhost/login.php
+Parsed URLs (from guessed pages and discovered links):
+********************************************
+["http://localhost/."]
+["http://localhost/instructions.php"]
+["http://localhost/setup.php"]
+["http://localhost/vulnerabilities/brute/"]
+["http://localhost/vulnerabilities/exec/"]
+["http://localhost/vulnerabilities/csrf/"]
+["http://localhost/vulnerabilities/fi/.", "page=include.php"]
+["http://localhost/vulnerabilities/upload/"]
+["http://localhost/vulnerabilities/captcha/"]
+["http://localhost/vulnerabilities/sqli/"]
+["http://localhost/vulnerabilities/sqli_blind/"]
+["http://localhost/vulnerabilities/xss_r/"]
+["http://localhost/vulnerabilities/xss_s/"]
+["http://localhost/security.php"]
+["http://localhost/phpinfo.php"]
+["http://localhost/about.php"]
+["http://localhost/login.php"]
+["http://localhost/settings.php"]
+["http://localhost/admin/index.php"]
+************************************************
+PAGE: Setup :: Damn Vulnerable Web Application (DVWA) v1.9
+************************************************
+FORM INPUTS:
+*********************************************
+*   Name   *             Value              *
+*********************************************
+*********************************************
+*user_token*4a4881d889eeb6323c09d9a2e7615167*
+*********************************************
+************************************************
+PAGE: Vulnerability: Brute Force :: Damn Vulnerable Web Application (DVWA) v1.9
+************************************************
+FORM INPUTS:
+****************
+*  Name  *Value*
+****************
+****************
+*username*     *
+*password*     *
+****************
+************************************************
+PAGE: Vulnerability: Command Injection :: Damn Vulnerable Web Application (DVWA) v1.9
+************************************************
+FORM INPUTS:
+**********
+*Name*Value*
+**********
+**********
+*ip*     *
+**********
+************************************************
+PAGE: Vulnerability: Cross Site Request Forgery (CSRF) :: Damn Vulnerable Web Application (DVWA) v1.9
+************************************************
+FORM INPUTS:
+*********************
+*    Name     *Value*
+*********************
+*********************
+*password_new *     *
+*password_conf*     *
+*********************
+************************************************
+PAGE: Vulnerability: File Upload :: Damn Vulnerable Web Application (DVWA) v1.9
+************************************************
+FORM INPUTS:
+************************************************
+PAGE: Vulnerability: Insecure CAPTCHA :: Damn Vulnerable Web Application (DVWA) v1.9
+************************************************
+FORM INPUTS:
+********************************************
+*          Name           *     Value      *
+********************************************
+********************************************
+*          step           *       1        *
+*      password_new       *                *
+*      password_conf      *                *
+*recaptcha_response_field *manual_challenge*
+*recaptcha_challenge_field*                *
+********************************************
+************************************************
+PAGE: Vulnerability: SQL Injection :: Damn Vulnerable Web Application (DVWA) v1.9
+************************************************
+FORM INPUTS:
+**********
+*Name*Value*
+**********
+**********
+*id*     *
+**********
+************************************************
+PAGE: Vulnerability: SQL Injection (Blind) :: Damn Vulnerable Web Application (DVWA) v1.9
+************************************************
+FORM INPUTS:
+**********
+*Name*Value*
+**********
+**********
+*id*     *
+**********
+************************************************
+PAGE: Vulnerability: Reflected Cross Site Scripting (XSS) :: Damn Vulnerable Web Application (DVWA) v1.9
+************************************************
+FORM INPUTS:
+************
+*Name*Value*
+************
+************
+*name*     *
+************
+************************************************
+PAGE: Vulnerability: Stored Cross Site Scripting (XSS) :: Damn Vulnerable Web Application (DVWA) v1.9
+************************************************
+FORM INPUTS:
+******************
+*   Name   *Value*
+******************
+******************
+* txtName  *     *
+*mtxMessage*     *
+******************
+************************************************
+PAGE: DVWA Security :: Damn Vulnerable Web Application (DVWA) v1.9
+************************************************
+FORM INPUTS:
+*********************************************
+*   Name   *             Value              *
+*********************************************
+*********************************************
+*user_token*45e2842863ed42edc58c4905278f4264*
+* security *              low               *
+*********************************************
+************************************************
+PAGE: Login :: Damn Vulnerable Web Application (DVWA) v1.9
+************************************************
+FORM INPUTS:
+*********************************************
+*   Name   *             Value              *
+*********************************************
+*********************************************
+* username *                                *
+* password *                                *
+*user_token*9ed35fa3c1db83506b80f103be9c4b5a*
+*********************************************
+************************************************
+PAGE: Test Credit Card Title Page
+************************************************
+FORM INPUTS:
+************************
+*      Name      *Value*
+************************
+************************
+*creditCardNumber*     *
+*      ssn       *     *
+************************
+************************************************
+PAGE: Test Admin Page
+************************************************
+FORM INPUTS:
+*******************
+*   Name    *Value*
+*******************
+*******************
+*ritUsername*     *
+* password  *     *
+*******************
+Cookies:
+*********************************************************
+PHPSESSID=hieriv3ejtnb4pkbh3frc8n7u3
+security=low
+TestCookie=CookieMonster
+AdminCookie=BettyWhiteWasHere
+*********************************************************
+Testing with vectors...
+This may take a while with a large vectors file...
+<html><body><pre>You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '"'' at line 1</pre></body></html>
+		<pre>ID: "'or '1=1"<br>First name: admin<br>Surname: admin</pre>
+<pre>ID: "'or '1=1"<br>First name: Gordon<br>Surname: Brown</pre>
+<pre>ID: "'or '1=1"<br>First name: Hack<br>Surname: Me</pre>
+<pre>ID: "'or '1=1"<br>First name: Pablo<br>Surname: Picasso</pre>
+<pre>ID: "'or '1=1"<br>First name: Bob<br>Surname: Smith</pre>
+-----------------ERROR-----------------
+404 => Net::HTTPNotFound for http://localhost/vulnerabilities/sqli_blind/?id=%22%3C%22&Submit=Submit# -- unhandled response
+-----------------ERROR-----------------
+404 => Net::HTTPNotFound for http://localhost/vulnerabilities/sqli_blind/?id=%22%27%22&Submit=Submit&Submit=Submit# -- unhandled response
+		<pre>Hello "'"</pre>
+		<pre>Hello "'or '1=1"</pre>
+*************************************
+*          TEST RESULTS:            *
+*************************************
+Number of Unsanitized inputs: 157
+Number of Possible SQL Injection Vulnerabilities: 12
+Number of possible Sensitive Data Leakages: 0
+Number of possible DOS vulnerabilities: 3
+Number of HTTP/Response Code Errors: 2
+[32;1mBuild succeeded
+[0;m

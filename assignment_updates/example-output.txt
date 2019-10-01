@@ -1,0 +1,85 @@
+LINKS FOUND ON PAGE:
+====================
+http://localhost/.
+http://localhost/instructions.php
+http://localhost/setup.php
+http://localhost/vulnerabilities/brute/
+http://localhost/vulnerabilities/exec/
+http://localhost/vulnerabilities/csrf/
+['http://localhost/vulnerabilities/fi/.', 'page=include.php']
+http://localhost/vulnerabilities/upload/
+http://localhost/vulnerabilities/captcha/
+http://localhost/vulnerabilities/sqli/
+http://localhost/vulnerabilities/sqli_blind/
+http://localhost/vulnerabilities/xss_r/
+http://localhost/vulnerabilities/xss_s/
+http://localhost/security.php
+http://localhost/phpinfo.php
+http://localhost/about.php
+http://localhost/logout.php
+====================
+
+LINKS SUCCESSFULLY GUESSED:
+====================
+http://localhost/settings.php
+http://localhost/admin/index.php
+====================
+
+INPUT FORMS ON PAGES:
+====================
+Database Setup
+   user_token
+Vulnerability: Brute Force
+   username
+   password
+   user_token
+Vulnerability: Command Injection
+   ip
+   user_token
+Vulnerability: Cross Site Request Forgery (CSRF)
+   password_current
+   password_new
+   password_conf
+   user_token
+Vulnerability: File Inclusion
+Vulnerability: File Upload
+   MAX_FILE_SIZE
+   uploaded
+   user_token
+Vulnerability: Insecure CAPTCHA
+   step
+   password_current
+   password_new
+   password_conf
+   recaptcha_response_field
+   user_token
+Vulnerability: SQL Injection
+   id
+   user_token
+Vulnerability: SQL Injection (Blind)
+   id
+   user_token
+Vulnerability: Reflected Cross Site Scripting (XSS)
+   name
+   user_token
+Vulnerability: Stored Cross Site Scripting (XSS)
+   txtName
+   user_token
+DVWA Security
+   user_token
+
+   username
+   password
+   user_token
+====================
+COOKIES
+    <Cookie PHPSESSID=idqpgq1ootuktuafd5m3oongp1 for localhost.local/>
+    <Cookie TestCookie=CookieMonster for localhost.local/>
+    <Cookie security=impossible for localhost.local/>
+    <Cookie AdminCookie=BettyWhiteWasHere for localhost.local/admin>
+====================
+Testing with vectors (This may take a while)
+TEST RESULTS
+Number of unsanitized inputs: 0
+Number of DDOS vulnerabilities: 0
+Number of HTTP response code errors: 0

@@ -1,0 +1,302 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+
+
+<link rel="stylesheet" type="text/css" href="http://www.se.rit.edu/resources/style-sheets/SEdepartment.css">
+
+<script language="JavaScript">
+	var course_number = "SE 331"; // Change this to be the title of the course
+	var course_title = "Engineering Secure Software"; // Change this to be the title of the course
+	var section = "01"; // Change this to be the title of the course
+	full_title = course_number + " " + course_title;
+</script><!-- Do not change this -->
+
+
+<script language="JavaScript" src="http://www.se.rit.edu/resources/js/se.js"></script>
+<script language="JavaScript">
+	document.title = course_number + "-" + section + " " + course_title; // No need to change this
+</script><!-- Feel free to add custom styles if you like, but we'd rather put it in SEDepartment.css if at all possible -->
+
+
+<style type="text/css">
+h2{
+	text-align: center;
+}
+</style></head><body>
+	<header>
+		<a href="http://www.se.rit.edu" alt="Software Engineering Department">
+			<img src="http://www.se.rit.edu/resources/images/se_logo.png">
+		</a>
+		</header><h1>
+			<script language="JavaScript">
+				document.write(document.title);
+			</script>
+		</h1>
+		<div class="clear"></div>
+
+	<nav>
+		<ul>
+			<li><a href="../../syllabus.html">Syllabus</a></li>
+			<li><a href="../../01/index.html">Schedule</a></li>
+			<li><a href="../../slides/">Lecture Slides</a></li>
+			<li><a href="../../resources/votd/">Vulnerability of the Day</a></li>
+			<li><a href="../../projects/case-study/">Case Study</a></li>
+			<li><a href="../../projects/history/">History Project</a></li>
+			<li><a href="../../projects/fuzzer/">Fuzzer</a></li>
+		</ul>
+	</nav>
+
+	<article>
+		<header></header></article><h1>Web Application Fuzz Testing Tool</h1>
+
+		<h2>Overview</h2>
+		<p>This project is for individuals.</p>
+		<p>
+			 One of the most helpful tools that a security-minded software
+			developer can have is a fuzz-testing tool, or a <b>fuzzer</b>. A
+			fuzzer is a type of exploratory testing tool used for finding
+			weaknesses in a program by scanning its attack surface.
+		</p>
+		<p>
+			The best fuzzers are <em>highly</em> customizable, so generalized
+			fuzzers are often quite complex to configure and use, and can become
+			out-of-date quickly. Fortunately, we're software engineers, so we'll
+			build a fuzzer that can be customized to a specific web application rapidly.
+		</p>
+		<h2>Programming Language</h2>
+		<p>You have two choices of programming language: Ruby or Python. You may choose the specific packages to use - research them and find ones that fit your needs (there are many for both languages). For Ruby, successful projects have used Ruby with <a href="http://mechanize.rubyforge.org/">Mechanize</a>, or Python with the <a href="http://docs.python-requests.org/en/latest/">Requests</a> package or <a href="https://github.com/MechanicalSoup/MechanicalSoup">Mechanical Soup</a>,  or <a href="http://scrapy.org/">Scrapy</a>. If you are using Python, past students strongly recommend Python3+ due to some inconsistencies in the 2.7 versions of packages (i.e. use "python3" and "pip3" to run).</p>
+
+		<p>Think of the above libraries like a GUI-less browser - it can simulate
+everything that a browser does, but programmatically. It does HTTP requests, parses HTML, and a lot more.  In particular, they will: </p>
+	<ul>
+		<li>Handle the HTTP protocol, so you don't have to worry about
+			networking details</li>
+		<li>Parse HTML, so you can find inputs via relatively simple
+			XPATH queries or something similar</li>
+		<li>Simulate user actions, such as clicking links and submitting
+			forms</li>
+	</ul>
+
+	<p>Your code will be tested against a modified version of the DVWA we provided in the web application activity. We recommend you use DVWA as your test bed, but make sure your code is general enough to work on any website.</p>
+
+	<h2>Ruby Mechanize Example</h2>
+	<p><a href="mechanize_example.rb">This example</a> demonstrates a quick script for getting the links from our course web page using Ruby and the Mecahnize gem. </p>
+
+	<h2>Command-Line interaction</h2>
+
+	<p>Your fuzzer must run from the command line. Depending on your language, your exact command might vary (e.g. <code>python fuzz.py</code> or <code>ruby fuzz.rb</code>), but the basic structure should follow this manpage:</p>
+
+	<pre>
+fuzz [discover | test] url OPTIONS
+
+COMMANDS:
+  discover  Output a comprehensive, human-readable list of all discovered inputs to the system. Techniques include both crawling and guessing.
+  test      Discover all inputs, then attempt a list of exploit vectors on those inputs. Report anomalies that could be vulnerabilities.
+
+OPTIONS:
+  --custom-auth=string     Signal that the fuzzer should use hard-coded authentication for a specific application (e.g. dvwa).
+
+  Discover options:
+    --common-words=file    Newline-delimited file of common words to be used in page guessing. Required.
+
+  Test options:
+    --vectors=file         Newline-delimited file of common exploits to vulnerabilities. Required.
+		--sanitized-chars=file Newline-delimited file of characters that should be sanitized from inputs. Defaults to just < and >
+    --sensitive=file       Newline-delimited file data that should never be leaked. It's assumed that this data is in the application's database (e.g. test data), but is not reported in any response. Required.
+    --random=[true|false]  When off, try each input to each page systematically.  When on, choose a random page, then a random input field and test all vectors. Default: false.
+    --slow=500             Number of milliseconds considered when a response is considered "slow". Default is 500 milliseconds
+
+Examples:
+  # Discover inputs
+  fuzz discover http://localhost:8080 --common-words=mywords.txt
+
+  # Discover inputs to DVWA using our hard-coded authentication
+  fuzz discover http://localhost:8080 --common-words=mywords.txt
+
+  # Discover and Test DVWA without randomness
+  fuzz test http://localhost:8080 --custom-auth=dvwa --common-words=words.txt --vectors=vectors.txt --sensitive=creditcards.txt --random=false
+</pre>
+
+<h2>Expected Output</h2>
+<p>Your output should be human readable. Think of it like a build report you might get in an email that you can review from time to time. It should be detailed enough that you can look into potential vulnerabilities, and it should also be readable enough that you're trying to read through HTTP outputs and stacktraces.</p>
+<p>An example of good output for <code>discover</code>can be found <a href="example-output.txt">here</a>. (You do not need to match this format exactly.) An example of good output from <code>test</code> can be found <a href="example-output-test.txt">here</a>. Note that DVWA evolves over time, so these exact outputs may be slightly different than yours - these are just examples of outputs, not oracles for expected results.</p>
+
+<h2>Test Environments</h2>
+<p><b>DVWA</b>. Use the DVWA download from our web application activity as your main test environment. You can use the zip file from our <a href="../../activities/webapps.html">Web Application Activity</a> </p>
+
+<p><b>fuzzer-tests</b>. Additionally, we have created a set of simpler test cases at the <code>/fuzzer-tests</code> url. You can find the PHP files in the zip file under  <code>/htdocs/fuzzer-tests</code>. Your fuzzer should be able to find the following:</p>
+
+<p>...during <code>fuzz discover</code>:</p>
+
+<ul>
+  <li>The main page <code>index.php</code> has two inputs, one via called <code>calzone</code> (discoverable via form) and another called <code>message</code> (discoverable via url parameter parsing).</li>
+  <li>There is a page called <code>valid.php</code></li>
+  <li>There is a page called <code>timeout.php</code></li>
+  <li>There is a page called <code>admin.php</code> not linked from anywhere, it has an input called <code>company</code> (discoverable via form OR url parsing)</li>
+  <li>There is a page called <code>sensitive.php</code> linked only from <code>admin.php</code></li>
+  <li>There is NOT a page called &#8220;CioffisTheBest.html&#8221;. That link is dead.</li>
+  <li>Your fuzzer should NOT go in an infinite loop.</li>
+  <li>Your fuzzer should NOT go <code>http://se.rit.edu</code></li>
+</ul>
+
+<p>...during <code>fuzz test</code>:</p>
+
+<ul>
+  <li><code>index.php</code>, input <code>calzone</code> lacks sanitization</li>
+  <li><code>index.php</code>, input <code>message</code> lacks sanitization</li>
+  <li><code>valid.php</code> has no inputs</li>
+  <li><code>timeout.php</code> has no inputs, but it has a long delay</li>
+  <li><code>admin.php</code>, input <code>company</code> lacks sanitization</li>
+  <li><code>sensitive.php</code> has no inputs, but leaks sensitive data of 123-45-6789</li>
+  <li><code>timeout.php</code> takes at least 2 seconds to load</li>
+</ul>
+
+These test cases are maintained over at <a href="https://github.com/andymeneely/swen331fuzzerCI">this GitHub project</a>. Pull requests welcome!
+
+<h2>Submission Instructions</h2>
+<p>You must use RIT's installation of GitLab for this project. By a pre-determined date (given by your instructor), please do the following:
+</p>
+<ol>
+	<li>Go to <a href="https://kgcoe-git.rit.edu">https://kgcoe-git.rit.edu</a></li>
+	<li>Use your RIT login to sign in ("LDAP Login").</li>
+	<li>Create a new project - be sure to have the word "fuzzer" in the title. <b>Visibility is Private</b> (please do not share your code, even after this class has finished). </li>
+	<li>On the project settings page (gear icon in the upper-right), go to the Members. Add your instructor and the TA as <b>Reporter</b> of your project. (If you need the instructor's and/or TA's RIT username, you can find it on myCourses.)</li>
+</ol>
+<p>You are required to push your code to this repository by the deadline. At each deadline, we will autmatically pull the code and grade that. You do not need a separate repository for each release - just keep working on the same repository for the entire fuzzer project. If you need a specific version to be graded (i.e. one that is not the most recent as of the deadline), contact your TA and they will make sure to check out the right one. We will assume the <code>master</code> branch is your submission.</p>
+<p>Please include a file called <code>.gitlab-ci.yml</code> (note the dot at the beginning of the file name) in the root of your repository. Here is the base file you should use, but then adapt it to your configuration. Note that YML files don't like tabs as whitespace and are finicky about number of spaces for indentation.</p>
+	<pre>
+image:
+  name: andymeneely/swen331fuzzer # don't change this
+  entrypoint: [""]  # don't change this
+before_script:
+  # don't change these either
+  - chown -R mysql:mysql /var/lib/mysql /var/run/mysqld
+  - echo '[+] Starting mysql...'
+  - service mysql start
+  - echo '[+] Starting apache'
+  - service apache2 start
+fuzzrunner:
+  script:
+    # here is where you can write your commands to run your fuzzer or any custom setup commands
+    - echo "hello class"
+    # need some example files for vectors and words? These are on the image
+    - cat /words.txt
+    - cat /vectors.txt
+    - cat /badchars.txt
+    # An example fuzzer command. Note the url is DIFFERENT than XAMPP example (no /dvwa).
+    - ruby fuzz.rb discover http://localhost/ --custom-auth=dvwa
+    - ruby fuzz.rb discover http://127.0.0.1/fuzzer-tests
+  stage: test
+
+	</pre>
+
+	<p>This is a continuous integration configuration file. Every commit you push to the repository, your fuzzer will be run against DVWA installed in a clean environment. To see the output, go to GitLab and find your build in the "Pipelines" page. <em>You are strongly encouraged to keep an eye on this output to make sure your code is working as expected as you work</em>. </p>
+
+<p>Your application should be
+easy to use from a customer's perspective. Some notes about your
+submision include:</p>
+<ul>
+<li>Fuzzers will be run on our <a href="https://hub.docker.com/r/andymeneely/swen331fuzzer/">docker image fuzzer-tests and DVWA</a> first for grading. The Docker image has DVWA installed, much like the XAMPP installation from the activity. If we cannot get this to work we will use the SE lab machines as a backup environment. Please note that the version of Python installed on these machines may differ from yours, so you should make sure your application works on these environments. </li>
+<li>Along with functionality, your applications and instructions should be clear and easy to understand and use. Imagine that you are releasing the application to an only reasonably technically proficient customer. Instructions should be clear, concise and unambiguous. Write a clear README.txt file that includes specific commands like <code>gem install</code> and <code>pip install</code>. If need be, you may modify your GitLab CI file to do any custom installs.</li>
+</ul>
+
+	<h2>Part 0: --custom-auth</h2>
+	<p>For this initial part, you will need to implement --custom-auth to log into DVWA.</p>
+	<p>For this product, DVWA is the main application you must authenticate to, but this fuzzer should work on any web application too. The code within the DVWA custom auth module of your program will be hardcoded to DVWA (and the rest of your fuzzer will not be). You are welcome to add other customizations for other products to test your fuzzer further (e.g. your senior project). With custom authentication turned off, the fuzzer should just crawl the exterior of the webapp (perhaps get lucky if the vector list had a password).</p>
+	<p>For the DVWA custom auth, your fuzzer will need to do the following sequence of operations automatically:</p>
+	<ol>
+		<li>Go to <code>{URL}/setup.php</code> where <code>{URL}</code> is the given url from the command line that points to a DVWA instance</li>
+		<li>"Click" on the Create/Reset Database (i.e. submit the form)</li>
+		<li>Go to <code>{URL}</code>, and it will forward you to the login page</li>
+		<li>Enter in "admin" and "password"</li>
+		<li>"Click" Login (i.e. submit the form)</li>
+		<li>Go to the DVWA Security page (<code>{URL}/security.php</code>)</li>
+		<li>Select "Low" and submit the form</li>
+		<li>Begin your fuzzing operations.</li>
+	</ol>
+	<p>You <em>cannot</em> assume that DVWA will be installed on a specific server, in a specific folder, on a specific port. For example, <code>http://example.com:1234/foo/dvwa</code> is a valid url we might try.</p>
+	<p>Be sure to document in your README any setup you need.</p>
+	<p>To demonstrate you are logged in, just print out the contents of the HTML of the DVWA home page, after logging in, to stdout. Remove this output for future rounds.</p>
+
+	<h2>Part 1: fuzz discover</h2>
+
+	<p>On the discovery side, your fuzzer will need to discover as many potential inputs to the system as possible. It will need to do the following:</p>
+	<ul>
+		<li><b>Page discovery</b>. The fuzzer must crawl and guess pages.
+			<ul>
+				<li><b>Link discovery</b>
+The fuzzer should keep a list of URLs that it can reach from the
+initial given page. Do not follow any links off-site in your crawl.</li>
+				<li><b>Page Guessing</b>.
+The fuzzer should use a common word list to discover potentially
+unlinked pages. Be sure to attempt relevant url extensions, such as
+".php" or ".jsp". You must also crawl from guessed pages as well. Your guessing may limit itself to the root of the given URL, you do NOT need to guess on every existing page (although a real fuzzer should!)</li>
+			</ul>
+		</li>
+		<li><b>Input discovery</b>. Given a page, the fuzzer should attempt to discover every possible input into the system.
+			<ul>
+				<li><b>Parse URLs</b>. The fuzzer should be able to take a URL
+					and parse it down to manipulate its input and recognize which page
+					a URL goes to. For example, <code>http://localhost/index.jsp?something=a</code>
+					is the same page as <code>http://localhost/index.jsp?anotherthing=b</code>,
+					and there are two input that can be fuzzed (<code>something</code>
+					and <code>anotherthing</code>). Built-in APIs such as Java's <code>URL</code> class
+					can help with this.</li>
+				<li><b>Form parameters</b>. All input fields to forms should be
+					considered inputs.</li>
+				<li><b>Cookies</b>.
+Cookies are values that the application write to the browser cache,
+then reads them later. Since the application reads this data from the
+browser, cookies are also considered inputs. (e.g. DVWA uses a cookie
+to set High/Medium/Low security)</li>
+			</ul>
+		</li>
+	</ul>
+
+	<h2>Part 2: fuzz test</h2>
+	<p>Once
+you're done with input discovery, it's time to test. Testing has two
+parts: trying vectors, and then determining if the outcome was out of
+the ordinary.</p>
+
+	<p>To conduct your test, you must use an <b>external list of fuzz vectors</b>. These are strings of common exploits to vulnerabilities. These lists can be found all over the internet. <a href="https://www.owasp.org/index.php/OWASP_Testing_Guide_Appendix_C:_Fuzz_Vectors">This list at OWASP</a> is a fine place to start. <b>TIP</b>: when developing, keep this list short and targeted. You're fuzzing applications you <i>know</i> are vulnerable, so unnecessary vectors can slow your Edit-Compile-Test cycle.</p>
+
+	<p>Upon
+sending in the vector, you'll need examine the response to see if the
+page may have a vulnerability. Here are some reasons, and you may think
+of more.</p>
+
+	<ul>
+		<li><b>Lack of sanitization</b>. Given inputs
+with data that should be sanitized, the fuzzer should report whether or
+not the data was actually sanitized. For example, your fuzzer could try a string like <code>foobar&lt;foobar</code> and the response should have <code>foobar&amp;lt;foobar</code>. Your fuzzer should default to <code>&lt;</code> and <code>&gt;</code> if a newline-delimited list is not specified.</li>
+		<li><b>Sensitive data leaked</b>. As a tester, you might
+have some test data that you know is sensitive and should never be
+leaked. The system should contain a list of sensitive data, and should
+check each request and response if that data has been disclosed. This
+is in an external text file and provided on the command line. This list
+ought to include technical words that users should never see like
+"MySQL" as well as personal information like a social security number. Add "MySQL" and "123-45-6789" (without the quotes) to your sensitive data list, as well as anything you feel you need for your testing. </li>
+		<li><b>Delayed response</b>. If the response takes longer than a pre-defined threshold, then there's a potential of a denial-of-service vulnerablity.</li>
+		<li><b>HTTP response codes</b>. If the HTTP response code is not OK (i.e. 200), then something went wrong. Report it. This can happen on broken links, authorization problems, whatever. Translate those HTTP codes to be human readable</li>
+	</ul>
+
+	<h2>Grading</h2>
+	Given that we are fuzzing <i>known</i> vulnerable applications, we will run your fuzzer to ensure that it reports errors on those vulnerabilities. However, your fuzzer should <i>not</i> hardcode specific vulnerabilities in specific applications - the point of this exercise is to make your fuzzer <i>discover</i> potential vulnerabilities. The grading breakdown is as follows:
+	<ul>
+		<li>(25 pts) --custom-auth=dvwa</li>
+		<li>(45 pts) fuzz discover</li>
+		<li>(30 pts) fuzz test</li>
+		<li>Each deliverable must include ease of setup via README</li>
+		<li>Each deliverable must include meaningful, easy to read output from the fuzz discover</li>
+		<li>Each deliverable must include meaningful, easy to read output from the fuzz test</li>
+	</ul>
+
+	<h2>Submission</h2>
+	<p>Submit your source code via GitLab. We will pull from the <code>master</code> branch at the deadline. Write up a basic README on getting the code to run in other environments.</p>
+
+	<footer>
+		<time title="Date Appears on Publish"> Last Rev: <span>Date will appear on Publish</span></time>
+	</footer>
+
+</body></html>
