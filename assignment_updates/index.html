@@ -185,13 +185,16 @@ fuzzrunner:
     - cat /vectors.txt
     - cat /badchars.txt
     # An example fuzzer command. Note the url is DIFFERENT than XAMPP example (no /dvwa).
+		# Remove whatever you need to.
     - ruby fuzz.rb discover http://localhost/ --custom-auth=dvwa
     - ruby fuzz.rb discover http://127.0.0.1/fuzzer-tests
+		- python3 fuzz.rb discover http://localhost/ --custom-auth=dvwa
+    - python3 fuzz.rb discover http://127.0.0.1/fuzzer-tests
   stage: test
 
 	</pre>
 
-	<p>This is a continuous integration configuration file. Every commit you push to the repository, your fuzzer will be run against DVWA installed in a clean environment. To see the output, go to GitLab and find your build in the "Pipelines" page. <em>You are strongly encouraged to keep an eye on this output to make sure your code is working as expected as you work</em>. </p>
+<p>This is a continuous integration configuration file. Every commit you push to the repository, your fuzzer will be run against DVWA installed in a clean environment. To see the output, go to GitLab and find your build in the "Pipelines" page. <em>You are strongly encouraged to keep an eye on this output to make sure your code is working as expected as you work</em>. </p>
 
 <p>Your application should be
 easy to use from a customer's perspective. Some notes about your
@@ -201,9 +204,11 @@ submision include:</p>
 <li>Along with functionality, your applications and instructions should be clear and easy to understand and use. Imagine that you are releasing the application to an only reasonably technically proficient customer. Instructions should be clear, concise and unambiguous. Write a clear README.txt file that includes specific commands like <code>gem install</code> and <code>pip install</code>. If need be, you may modify your GitLab CI file to do any custom installs.</li>
 </ul>
 
-	<h2>Part 0: --custom-auth</h2>
-	<p>For this initial part, you will need to implement --custom-auth to log into DVWA.</p>
-	<p>For this product, DVWA is the main application you must authenticate to, but this fuzzer should work on any web application too. The code within the DVWA custom auth module of your program will be hardcoded to DVWA (and the rest of your fuzzer will not be). You are welcome to add other customizations for other products to test your fuzzer further (e.g. your senior project). With custom authentication turned off, the fuzzer should just crawl the exterior of the webapp (perhaps get lucky if the vector list had a password).</p>
+	<h2>Part 0: --custom-auth and CLI</h2>
+	<p>For this initial part, you will need to implement the --custom-auth feature to log into DVWA. Implicit in this is some basic command line parsing.</p>
+
+	<p>This fuzzer should work on any web application. But, when <code>--custom-auth=dvwa</code> is given, your fuzzer will know the location of the DVWA setup and login pages along (i.e. these are partially hardcoded). With custom authentication turned off, the fuzzer should just crawl the exterior of the webapp (perhaps get lucky if the vector list had a password).</p>
+
 	<p>For the DVWA custom auth, your fuzzer will need to do the following sequence of operations automatically:</p>
 	<ol>
 		<li>Go to <code>{URL}/setup.php</code> where <code>{URL}</code> is the given url from the command line that points to a DVWA instance</li>
@@ -215,8 +220,11 @@ submision include:</p>
 		<li>Select "Low" and submit the form</li>
 		<li>Begin your fuzzing operations.</li>
 	</ol>
+
 	<p>You <em>cannot</em> assume that DVWA will be installed on a specific server, in a specific folder, on a specific port. For example, <code>http://example.com:1234/foo/dvwa</code> is a valid url we might try.</p>
-	<p>Be sure to document in your README any setup you need.</p>
+
+	<p>Be sure to document in your README any setup you need. If your code does not work on the CI, the grader will be running this locally. Any confusion in that setup might hurt your grade.</p>
+
 	<p>To demonstrate you are logged in, just print out the contents of the HTML of the DVWA home page, after logging in, to stdout. Remove this output for future rounds.</p>
 
 	<h2>Part 1: fuzz discover</h2>
