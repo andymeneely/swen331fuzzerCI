@@ -1,6 +1,21 @@
 # swen331fuzzerCI
 The CI configuration for the SWEN 331 fuzzer assignment.
 
+# Building Docker Image Locally
+
+Edit the Dockerfile, and then run:
+
+```
+$ docker build . --tag beta1
+```
+
+To run that locally, use:
+
+```
+$ docker run --rm -it -p 80:80 beta1
+```
+
+
 # Running locally
 
 This will pull the image and run it.
