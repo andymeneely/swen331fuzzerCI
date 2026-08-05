@@ -21,6 +21,6 @@
             </div>
         <?php } ?>
 
-        <a href="sensitive.php">Here's another page.</a>
+        <a href="sensitive.php?parrot=Caw+Caw!">Here's another page.</a>
     </body>
 </html>

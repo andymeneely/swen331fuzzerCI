@@ -19,7 +19,9 @@
 ?>
 
         <form method="post" action="<?= $_SERVER['PHP_SELF'] ?>">
-            <h1>Give me some data!</h1>
+            <h1>RIT SWEN 331 Fuzzer Tests</h1>
+
+            <h2>Give me some data!</h2>
 
             <label>What is your favorite calzone?</label>
             <input type="text" name="calzone">
@@ -27,7 +29,7 @@
             <input type="submit" value="Submit" name="Submit">
         </form>
 
-        <p><a href="./CioffiIsTheBest.html">I go no where!</a></p>
+        <p><a href="./ThisIsADeadLink.html">I go nowhere!</a></p>
         <p><a href="./valid.php">But I go somewhere!</a></p>
         <p><a href="https://www.se.rit.edu/">I go somewhere, but you shouldn't follow me!</a></p>
         <p><a href="./timeout.php">Hopefully I timeout</a></p>
